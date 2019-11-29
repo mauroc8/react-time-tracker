@@ -50,11 +50,11 @@ function escapeRegExp(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
 
-const getProjectRegExp = new RegExp(
+const projectRegExp = new RegExp(
   escapeRegExp(mockAPI) + "\\/project\\/[\\w-]+\\/$"
 );
 
-mockAdapter.onGet(getProjectRegExp).reply(config => {
+mockAdapter.onGet(projectRegExp).reply(config => {
   const name = config.url.match(/\/([\w-]+)\/$/)[1];
 
   const project = mockedProjects.find(project => project.name === name);
@@ -65,6 +65,30 @@ mockAdapter.onGet(getProjectRegExp).reply(config => {
   }
 
   return [200, { ...project, tasks }];
+});
+
+mockAdapter.onPost(projectRegExp).reply(config => {
+  const projectName = config.url.match(/\/([\w-]+)\/$/)[1];
+  const data = JSON.parse(config.data);
+
+  if (
+    mockedTasks.find(
+      task => task.project === projectName && task.name === data.name
+    )
+  ) {
+    return [
+      403,
+      { message: `The task ${data.name} already exists in this project` }
+    ];
+  }
+
+  mockedTasks.push({
+    project: projectName,
+    ...data
+  });
+  saveMockedTasks();
+
+  return [200, {}];
 });
 
 export { mockAPI, mockAdapter };

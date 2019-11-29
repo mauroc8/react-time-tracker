@@ -2,19 +2,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API, { errorHandler } from "../API";
 import { Link } from "react-router-dom";
+import { useWillUnmount } from "../hooks";
 
 function ShowProject(props) {
   const name = props.match.params.name;
   const [project, setProject] = useState(null);
+  const willUnmount = useWillUnmount();
 
   useEffect(() => {
     axios
       .get(`${API}/project/${name}/`)
       .then(resp => {
-        setProject(resp.data);
+        if (!willUnmount) {
+          setProject(resp.data);
+        }
       })
       .catch(errorHandler("load project"));
-  }, [name]);
+  }, [name, willUnmount]);
 
   if (project === null) {
     return <div className="loading">Loading...</div>;

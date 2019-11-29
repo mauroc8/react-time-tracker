@@ -2,18 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import API, { errorHandler } from "../API";
+import { useWillUnmount } from "../hooks";
 
 function ListProjects() {
   const [projects, setProjects] = useState(null);
+  const willUnmount = useWillUnmount();
 
   useEffect(() => {
     axios
       .get(`${API}/projects/`)
       .then(resp => {
-        setProjects(resp.data);
+        if (!willUnmount) {
+          setProjects(resp.data);
+        }
       })
       .catch(errorHandler("update project list"));
-  }, []);
+  }, [willUnmount]);
 
   return (
     <>
