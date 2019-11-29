@@ -1,14 +1,19 @@
 import React from "react";
 import "./Footer.css";
+import { usesRealAPI } from "../API";
 
 function Footer() {
   return (
     <footer>
-      <div>
-        This app uses localStorage. All the information is saved in your
-        browser.
-      </div>
-      <br />
+      {!usesRealAPI ? (
+        <div>
+          This app uses localStorage. All the information is saved in your
+          browser.
+          <br />
+        </div>
+      ) : (
+        ""
+      )}
       <div>
         (c) Mauro Cano.
         <br />
