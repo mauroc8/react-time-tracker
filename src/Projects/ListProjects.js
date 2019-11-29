@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { updateProjects } from "./Projects.ducks";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import API, { errorHandler } from "../API";
 
 function ListProjects() {
-  const projects = useSelector(state => state.projects.all);
-  const dispatch = useDispatch();
+  const [projects, setProjects] = useState(null);
 
   useEffect(() => {
-    dispatch(updateProjects());
-  }, [dispatch]);
+    axios
+      .get(`${API}/projects/`)
+      .then(resp => {
+        setProjects(resp.data);
+      })
+      .catch(errorHandler("update project list"));
+  }, []);
 
   return (
     <>

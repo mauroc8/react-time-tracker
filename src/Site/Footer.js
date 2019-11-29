@@ -9,12 +9,12 @@ function Footer() {
         <div>
           This app uses localStorage. All the information is saved in your
           browser.
-          <br />
         </div>
       ) : (
         ""
       )}
       <div>
+        <br />
         (c) Mauro Cano.
         <br />
         Made with React.
