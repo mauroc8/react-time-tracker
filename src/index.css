@@ -5,6 +5,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #111;
   color: #ddd;
+  line-height: 1.5em;
 }
 
 html,
@@ -41,6 +42,29 @@ h1 {
 
 ul {
   list-style: none;
-  line-height: 1.5em;
   padding: 0;
+}
+
+input[type="submit"],
+button {
+  background-color: #57f;
+  border: 0;
+  outline: 0;
+  padding: 2px 8px;
+  margin: 6px 4px 6px 0;
+  font: inherit;
+  color: inherit;
+  transition: background 0.3s ease-out;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover,
+button:hover {
+  background-color: #68f;
+}
+
+input[type="submit"]:disabled,
+button:disabled {
+  background-color: #999;
+  cursor: default;
 }

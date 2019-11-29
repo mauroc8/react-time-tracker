@@ -35,7 +35,7 @@ function ListProjects() {
         )}
       </ul>
       <Link to="/projects/create" className="blue">
-        Create project.
+        Create project
       </Link>
     </>
   );
