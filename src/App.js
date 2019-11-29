@@ -13,14 +13,16 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/projects/create" component={CreateProject} />
-        <Route exact path="/projects/list" component={ListProjects} />
-        <Route exact path="/project/:name" component={ShowProject} />
-        <Route exact path="/project/:name/edit" component={EditProject} />
-        <Route component={NotFound} />
-      </Switch>
+      <div className="content">
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/projects/create" component={CreateProject} />
+          <Route exact path="/projects/list" component={ListProjects} />
+          <Route exact path="/project/:name" component={ShowProject} />
+          <Route exact path="/project/:name/edit" component={EditProject} />
+          <Route component={NotFound} />
+        </Switch>
+      </div>
       <Footer />
     </BrowserRouter>
   );
