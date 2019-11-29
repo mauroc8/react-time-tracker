@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 import API, { errorHandler } from "../API";
+import { useWillUnmount } from "../hooks";
 
 export function formatProjectName(name) {
   return name.replace(/[^\w-]/gi, "-");
@@ -11,15 +12,12 @@ export function formatProjectName(name) {
 const NONE = 0;
 const LOADING = 1;
 const REDIRECTING = 2;
-const UNMOUNTING = 3;
 
 function CreateProject() {
   const [projectName, setProjectName] = useState("");
   const [transition, setTransition] = useState(NONE);
 
-  useEffect(() => {
-    return () => setTransition(UNMOUNTING);
-  }, []);
+  const willUnmount = useWillUnmount();
 
   function createProject(event) {
     event.preventDefault();
@@ -30,13 +28,13 @@ function CreateProject() {
     axios
       .post(`${API}/projects/`, { name })
       .then(resp => {
-        if (transition !== UNMOUNTING) {
+        if (!willUnmount) {
           setTransition(REDIRECTING);
         }
       })
       .catch(err => {
         errorHandler("create project")(err);
-        if (transition !== UNMOUNTING) {
+        if (!willUnmount) {
           // Unset the LOADING transition
           setTransition(NONE);
         }
