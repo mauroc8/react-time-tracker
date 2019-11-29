@@ -35,4 +35,36 @@ mockAdapter.onPost(`${mockAPI}/projects/`).reply(config => {
   return [200, {}];
 });
 
+// Get project
+
+const mockedTasks = localStorage.getItem("mockedTasks")
+  ? JSON.parse(localStorage.getItem("mockedTasks"))
+  : [];
+
+function saveMockedTasks() {
+  localStorage.setItem("mockedTasks", JSON.stringify(mockedTasks));
+}
+
+// https://stackoverflow.com/a/9310752
+function escapeRegExp(text) {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
+const getProjectRegExp = new RegExp(
+  escapeRegExp(mockAPI) + "\\/project\\/[\\w-]+\\/$"
+);
+
+mockAdapter.onGet(getProjectRegExp).reply(config => {
+  const name = config.url.match(/\/([\w-]+)\/$/)[1];
+
+  const project = mockedProjects.find(project => project.name === name);
+  const tasks = mockedTasks.filter(task => task.project === name);
+
+  if (!project) {
+    return [403, { message: `The project ${name} doesn't exist` }];
+  }
+
+  return [200, { ...project, tasks }];
+});
+
 export { mockAPI, mockAdapter };
