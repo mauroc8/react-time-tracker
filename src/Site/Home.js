@@ -1,7 +1,8 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 
 function Home() {
-  return <div></div>;
+  return <Redirect to="/projects/" />;
 }
 
 export default Home;

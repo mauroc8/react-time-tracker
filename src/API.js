@@ -1,15 +1,13 @@
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
+import { mockAPI } from "./mockAdapter";
 
-const mockAPI = "https://api.time-tracker.net";
 const usesRealAPI = Boolean(process.env.REACT_APP_API);
 const API = usesRealAPI
   ? process.env.REACT_APP_API.replace(/\/^/, "")
   : mockAPI;
 
-const mockAdapter = new MockAdapter(axios, { delayResponse: 100 });
+const errorHandler = actionName => error => {
+  console.log(`Error trying to ${actionName}.`, error);
+};
 
-console.log(process.env);
-
-export { usesRealAPI, mockAPI, mockAdapter };
+export { errorHandler, usesRealAPI };
 export default API;
