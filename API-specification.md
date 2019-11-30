@@ -1,27 +1,50 @@
 # API specification
 
-> All failed requests should return `{ message: string }` indicating what went wrong.
+This file is intended as a reference for someone who wants to create a backend for this app.
 
-## GET: `/projects/`
+To run the app with a backend, use:
 
-**Output:** `[{ name: string }]`
+- Linux: `REACT_APP_API="https://my-real-api.com" npm start`
+- Windows (powershell): `$env:REACT_APP_API="https://my-real-api.com"` and `npm start`
 
-Retrieves the list of created projects. Returns an empty list if there're no projects.
+The app will disable the mocked backend.
 
-## POST: `/projects/`
+## Types
 
-**Input:** `{ name: string }`
+```js
+TASK = { name: string, project: string, seconds: int, color: COLOR, last_modified: TIMESTAMP }
+COLOR = any valid css color
+TIMESTAMP = unix timestamp
+```
 
-Creates a new project with name `name`. `name` should match `/^[\w\-]+$/`.
+## Endpoints
 
-## GET: `/project/<name>/`
+### GET: `/tasks/`
 
-**Output:** `{ name: string, tasks: [{ name: string, timeSpent: int(milliseconds) }] }`
+**Output:** `[TASK]`. Gets all tasks.
 
-Retrieves the project info and tasks.
+### POST: `/tasks/`
 
-## POST: `/project/<projectName>/`
+**Input:** `TASK`. Creates a task.
 
-**Input:** `{ name: string, timeSpent: int }`
+Throws 403 if task already exists.
 
-Creates a task named `name` in project `<projectName>`. `name` should match `/^[\w\-]+$/`.
+### PATCH: `/tasks/`
+
+**Input:** `{ old_task: { name: string, project: string }, new_task: TASK }`. Replaces old task w/new one.
+
+Throws 403 if the task doesn't exist.
+
+### DELETE: `/tasks/`
+
+**Input:** `{ name: string, project: string }`. Deletes the task.
+
+Throws 403 if the task doesn't exist.
+
+## Observations
+
+- There can be two tasks with the same name, but in different projects. Two tasks are "the same" iff `taskA.name === taskB.name && taskA.project === taskB.project`.
+
+- The back-end **shouldn't** change the `last_modified` field. The front-end takes care of that.
+
+- The behaviour of the backend is mocked --using localStorage for persistence-- in [/src/mockAdapter.js](src/mockAdapter.js).

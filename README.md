@@ -3,9 +3,9 @@
 A minimal time-tracking web app. Made to learn [react hooks](https://reactjs.org/docs/hooks-intro.html).
 It features:
 
-- Create, delete, and edit _projects_.
-- Create, delete and edit _tasks_ (within each project).
+- Create, delete and edit _tasks_ (associated with a project).
 - Record time spent working on a task.
+- Filter tasks by project.
 
 ## Run
 

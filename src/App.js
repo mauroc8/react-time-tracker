@@ -1,34 +1,39 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Home from "./Site/Home.js";
-import Header from "./Site/Header.js";
-import Footer from "./Site/Footer.js";
-import NotFound from "./Site/NotFound.js";
-import ListProjects from "./Projects/ListProjects.js";
-import CreateProject from "./Projects/CreateProject.js";
-import ShowProject from "./Projects/ShowProject.js";
-import EditProject from "./Projects/EditProject.js";
+import React, { useState } from "react";
+import Task from "./Tasks/Task";
 import CreateTask from "./Tasks/CreateTask";
-import EditTask from "./Tasks/EditTask";
+import { useTasks } from "./hooks";
 
 function App() {
+  const [selectedProject, selectProject] = useState(null);
+  let tasks = useTasks();
+
+  function makeTaskComponent(task) {
+    return (
+      <li key={`${task.project}/${task.name}`}>
+        <Task {...task} selectProject={selectProject} />
+      </li>
+    );
+  }
+
+  if (tasks === null) {
+    return <div>Loading...</div>;
+  }
+
+  tasks = tasks.sort(
+    (taskA, taskB) => taskA.last_modified - taskB.last_modified
+  );
+
+  if (selectedProject !== null) {
+    tasks = tasks.filter(task => task.project === selectedProject);
+  }
+
   return (
-    <BrowserRouter>
-      <Header />
-      <div className="content">
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/projects/" component={ListProjects} />
-          <Route exact path="/projects/create/" component={CreateProject} />
-          <Route exact path="/project/:name/" component={ShowProject} />
-          <Route exact path="/project/:name/edit/" component={EditProject} />
-          <Route exact path="/project/:name/create/" component={CreateTask} />
-          <Route exact path="/project/:name/task/:task/" component={EditTask} />
-          <Route component={NotFound} />
-        </Switch>
-      </div>
-      <Footer />
-    </BrowserRouter>
+    <ul>
+      {tasks.map(makeTaskComponent)}
+      <li key="create-task">
+        <CreateTask />
+      </li>
+    </ul>
   );
 }
 
