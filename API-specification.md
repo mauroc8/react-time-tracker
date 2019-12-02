@@ -13,7 +13,7 @@ The app will disable the mocked backend.
 
 ```js
 TASK = { name: string, project: string, seconds: int, color: COLOR, last_modified: TIMESTAMP }
-COLOR = any valid css color
+COLOR = any hex color using the format '#XXXXXX' (where X is an hex digit)
 TIMESTAMP = unix timestamp
 ```
 

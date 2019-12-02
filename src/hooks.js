@@ -12,9 +12,10 @@ export function useWillUnmount() {
   return willUnmount;
 }
 
-export function useTasks() {
+export function useTasks(filterByProject) {
   const willUnmount = useWillUnmount();
-  const [tasks, setTasks] = useState(null);
+  let [tasks, setTasks] = useState(null);
+  const [updateCounter, setUpdateCounter] = useState(0);
 
   useEffect(() => {
     axios
@@ -30,7 +31,38 @@ export function useTasks() {
           console.log(err);
         }
       });
-  }, [willUnmount]);
+  }, [willUnmount, updateCounter]);
 
-  return tasks;
+  if (tasks !== null) {
+    tasks = tasks.sort(
+      (taskA, taskB) => taskA.last_modified - taskB.last_modified
+    );
+
+    if (typeof filterByProject === "string") {
+      tasks = tasks.filter(task => task.project === filterByProject);
+    }
+  }
+
+  const updateTasks = () => setUpdateCounter(updateCounter + 1);
+
+  return [tasks, updateTasks];
+}
+
+export function getProjectsFromTasks(tasks) {
+  if (tasks === null) {
+    return [];
+  }
+
+  const projectColors = Object.create(null);
+
+  const projects = tasks.reduce((projects, task) => {
+    if (projects.includes(task.project)) {
+      return projects;
+    }
+    projectColors[task.project] = task.color;
+
+    return [...projects, task.project];
+  }, []);
+
+  return [projects, projectColors];
 }

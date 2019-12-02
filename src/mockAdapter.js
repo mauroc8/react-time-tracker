@@ -30,6 +30,7 @@ mockAdapter.onPost(`${mockAPI}/tasks/`).reply(config => {
 
   tasks.push(newTask);
   saveTasks(tasks);
+  return [200, {}];
 });
 
 mockAdapter.onPatch(`${mockAPI}/tasks/`).reply(config => {
@@ -56,4 +57,4 @@ mockAdapter.onDelete(`${mockAPI}/tasks/`).reply(config => {
   saveTasks(tasks);
 });
 
-export { mockAPI, mockAdapter };
+export { mockAPI };
