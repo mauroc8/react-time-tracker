@@ -41,19 +41,19 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
       style={{ "--task-color": taskColor }}
     >
       <div className="task-head">
-        <h3>Create task</h3>
-        <label htmlFor="task-name">Task name</label>
-        <br />
+        <h3>New task</h3>
         <input
           type="text"
           id="task-name"
+          placeholder="Task Name"
           value={taskName}
           onChange={_fromEvent(setTaskName)}
         />
       </div>
       <div className="task-body">
-        <label htmlFor="project-name">Task project</label>
-        <br />
+        <h3>
+          <label htmlFor="project-name">Project</label>
+        </h3>
         <select
           id="project-name"
           value={selectedProjectName}
@@ -83,17 +83,13 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
         <br />
         {selectedProjectName === "" ? (
           <>
-            <label htmlFor="new-project-name">Project name</label>
-            <br />
             <input
               type="text"
               id="new-project-name"
+              placeholder="Project name"
               value={newProjectName}
               onChange={_fromEvent(setNewProjectName)}
             />
-            <br />
-            <label htmlFor="new-project-color">Color</label>
-            <br />
             <input
               type="color"
               id="new-project-color"

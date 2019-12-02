@@ -54,6 +54,11 @@ button {
   font: inherit;
 }
 
+input[type="submit"]:disabled,
+button:disabled {
+  color: lightgray;
+}
+
 input,
 select {
   padding: 5px 12px;
