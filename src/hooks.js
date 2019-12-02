@@ -35,7 +35,7 @@ export function useTasks(filterByProject) {
 
   if (tasks !== null) {
     tasks = tasks.sort(
-      (taskA, taskB) => taskA.last_modified - taskB.last_modified
+      (taskA, taskB) => taskB.last_modified - taskA.last_modified
     );
 
     if (typeof filterByProject === "string") {

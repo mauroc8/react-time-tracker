@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 import CreateTask from "./CreateTask";
 import CreateTaskForm from "./CreateTaskForm";
 import { expect } from "chai";
@@ -9,7 +9,7 @@ describe("CreateTask", () => {
   let createTask;
 
   beforeAll(() => {
-    createTask = shallow(
+    createTask = mount(
       <CreateTask projects={[]} projectColors={{}} updateTasks={jest.fn()} />
     );
   });

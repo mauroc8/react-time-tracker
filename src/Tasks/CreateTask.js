@@ -6,24 +6,23 @@ export default function CreateTask({ projects, projectColors, updateTasks }) {
 
   if (isCreatingTask) {
     return (
-      <>
-        <CreateTaskForm
-          projects={projects}
-          projectColors={projectColors}
-          onCreate={() => {
-            setIsCreatingTask(false);
-            updateTasks();
-          }}
-        />
-        <button className="cancel" onClick={() => setIsCreatingTask(false)}>
-          Cancel
-        </button>
-      </>
+      <CreateTaskForm
+        projects={projects}
+        projectColors={projectColors}
+        onCreate={() => {
+          setIsCreatingTask(false);
+          updateTasks();
+        }}
+        onCancel={() => setIsCreatingTask(false)}
+      />
     );
   }
 
   return (
-    <button className="new-task" onClick={() => setIsCreatingTask(true)}>
+    <button
+      className="task task-head new-task"
+      onClick={() => setIsCreatingTask(true)}
+    >
       New Task
     </button>
   );

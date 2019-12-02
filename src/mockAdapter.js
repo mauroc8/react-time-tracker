@@ -44,6 +44,7 @@ mockAdapter.onPatch(`${mockAPI}/tasks/`).reply(config => {
 
   Object.assign(task, new_task);
   saveTasks(tasks);
+  return [200, {}];
 });
 
 mockAdapter.onDelete(`${mockAPI}/tasks/`).reply(config => {
@@ -55,6 +56,7 @@ mockAdapter.onDelete(`${mockAPI}/tasks/`).reply(config => {
 
   tasks = tasks.filter(otherTask => !isTaskEqualTo(task)(otherTask));
   saveTasks(tasks);
+  return [200, {}];
 });
 
 export { mockAPI };

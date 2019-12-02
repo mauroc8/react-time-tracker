@@ -4,7 +4,7 @@ import CreateTask from "./Tasks/CreateTask";
 import { useTasks, getProjectsFromTasks } from "./hooks";
 
 function App() {
-  const [selectedProject, selectProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [tasks, updateTasks] = useTasks(selectedProject);
   const [projects, projectColors] = getProjectsFromTasks(tasks);
 
@@ -16,9 +16,10 @@ function App() {
     <div className="task-flex">
       {tasks.map(task => (
         <Task
-          {...task}
           key={`${task.project}/${task.name}`}
-          selectProject={selectProject}
+          task={task}
+          selectProject={setSelectedProject}
+          updateTasks={updateTasks}
         />
       ))}
       <CreateTask
