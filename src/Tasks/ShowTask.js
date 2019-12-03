@@ -8,8 +8,8 @@ const zeroPad = number => {
 
 function ShowTask({ task, editTask, updateTasks }) {
   const [seconds, setSeconds] = useState(task.seconds);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
+  const minutes = Math.floor(seconds / 60) % 60;
+  const hours = Math.floor(seconds / 60 / 60);
 
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [startTime, setStartTime] = useState(null);
@@ -85,7 +85,9 @@ function ShowTask({ task, editTask, updateTasks }) {
         <div>{task.project}</div>
       </div>
       <div className="task-foot">
-        <button onClick={editTask}>Edit</button>
+        <button className="edit" onClick={editTask}>
+          Edit
+        </button>
       </div>
     </div>
   );

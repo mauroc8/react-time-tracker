@@ -5,8 +5,8 @@ It features:
 
 - [x] Show tasks.
 - [x] Create tasks.
-- [ ] Edit tasks.
-- [ ] Delete tasks.
+- [x] Edit tasks.
+- [x] Delete tasks.
 - [x] Start/end time record on a task.
 - [ ] Filter tasks by project.
 

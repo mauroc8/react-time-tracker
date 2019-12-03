@@ -24,7 +24,6 @@ body {
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid var(--task-color);
-  scroll-snap-align: center;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
@@ -55,7 +54,8 @@ button {
 }
 
 input[type="submit"]:disabled,
-button:disabled {
+button:disabled,
+option:disabled {
   color: lightgray;
 }
 
@@ -79,4 +79,13 @@ option {
   height: 4px;
   background-color: var(--task-color);
   transition: width 0.3s ease-in;
+}
+
+input[type="number"] {
+  max-width: 3em;
+}
+
+button.delete {
+  color: white;
+  background-color: var(--task-color);
 }

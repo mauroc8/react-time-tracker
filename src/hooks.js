@@ -43,7 +43,14 @@ export function useTasks(filterByProject) {
     }
   }
 
-  const updateTasks = () => setUpdateCounter(updateCounter + 1);
+  const updateTasks = updaterFunction => {
+    if (updaterFunction) {
+      // Manually update, to give immediate feedback
+      setTasks(updaterFunction(tasks));
+      // (But fetch anyway to validate the API did the right thing.)
+    }
+    setUpdateCounter(updateCounter + 1);
+  };
 
   return [tasks, updateTasks];
 }

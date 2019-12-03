@@ -47,7 +47,7 @@ mockAdapter.onPatch(`${mockAPI}/tasks/`).reply(config => {
   return [200, {}];
 });
 
-mockAdapter.onDelete(`${mockAPI}/tasks/`).reply(config => {
+mockAdapter.onPost(`${mockAPI}/delete-task/`).reply(config => {
   const task = JSON.parse(config.data);
 
   if (!tasks.some(isTaskEqualTo(task))) {

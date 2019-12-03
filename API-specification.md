@@ -35,11 +35,13 @@ Throws 403 if task already exists.
 
 Throws 403 if the task doesn't exist.
 
-### DELETE: `/tasks/`
+### POST: `/delete-task/`
 
 **Input:** `{ name: string, project: string }`. Deletes the task.
 
 Throws 403 if the task doesn't exist.
+
+> Note: We don't use a DELETE request because it ignores its body.
 
 ## Observations
 

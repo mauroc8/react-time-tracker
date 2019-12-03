@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import ShowTask from "./ShowTask";
+import EditTask from "./EditTask";
 
 function Task({ task, updateTasks }) {
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) {
-    return <div>Edit Task</div>;
+    return (
+      <EditTask
+        task={task}
+        cancelEdition={() => setIsEditing(false)}
+        updateTasks={updateTasks}
+      />
+    );
   }
 
   return (
