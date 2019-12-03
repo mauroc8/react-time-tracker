@@ -1,8 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import API_URL from "../API_URL";
+import TaskTimer from "./TaskTimer";
 
 const _fromEvent = setter => evt => setter(evt.target.value);
+
+const newProjectColors = [
+  "#6d7502",
+  "#1fad13",
+  "#c60d8f",
+  "#5577ff",
+  "#ff3344"
+];
 
 function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
   const [taskName, setTaskName] = useState("");
@@ -10,7 +19,9 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
     projects[0] || ""
   );
   const [newProjectName, setNewProjectName] = useState("");
-  const [newProjectColor, setNewProjectColor] = useState("#5577ff");
+  const [newProjectColor, setNewProjectColor] = useState(
+    newProjectColors[Math.floor(Math.random() * newProjectColors.length)]
+  );
 
   const taskColor = selectedProjectName
     ? projectColors[selectedProjectName]
@@ -34,6 +45,12 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
       });
   }
 
+  const createButton = children => (
+    <button disabled={!taskName || !(selectedProjectName || newProjectName)}>
+      {children}
+    </button>
+  );
+
   return (
     <form
       className="task"
@@ -41,30 +58,34 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
       style={{ "--task-color": taskColor }}
     >
       <div className="task-head">
-        <h3>New task</h3>
-        <input
-          type="text"
-          id="task-name"
-          placeholder="Task Name"
-          value={taskName}
-          onChange={_fromEvent(setTaskName)}
-        />
+        <TaskTimer seconds={0}>
+          {createButton(
+            <img
+              src="/baseline_add_white_24dp.png"
+              alt="Create task"
+              title="Create task"
+            />
+          )}
+        </TaskTimer>
       </div>
       <div className="task-body">
         <h3>
-          <label htmlFor="project-name">Project</label>
+          <input
+            type="text"
+            id="task-name"
+            placeholder="Task name"
+            value={taskName}
+            onChange={_fromEvent(setTaskName)}
+          />
         </h3>
-        <select
-          id="project-name"
-          value={selectedProjectName}
-          onChange={_fromEvent(setSelectedProjectName)}
-        >
-          <option value="" style={{ "--task-color": newProjectColor }}>
-            New Project
-          </option>
-          <optgroup label="My Projects">
-            {projects.length ? (
-              projects.map(project => (
+        {projects.length ? (
+          <>
+            <select
+              id="project-name"
+              value={selectedProjectName}
+              onChange={_fromEvent(setSelectedProjectName)}
+            >
+              {projects.map(project => (
                 <option
                   key={project}
                   value={project}
@@ -72,15 +93,22 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
                 >
                   {project}
                 </option>
-              ))
-            ) : (
-              <option value="" disabled={true}>
-                You have no projects
+              ))}
+              <option
+                value=""
+                style={{
+                  "--task-color": newProjectColor,
+                  "font-style": "italic"
+                }}
+              >
+                New project
               </option>
-            )}
-          </optgroup>
-        </select>
-        <br />
+            </select>
+            <br />
+          </>
+        ) : (
+          ""
+        )}
         {selectedProjectName === "" ? (
           <>
             <input
@@ -102,11 +130,8 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
         )}
       </div>
       <div className="task-foot">
-        <input
-          type="submit"
-          value="Create task"
-          disabled={!taskName || !(selectedProjectName || newProjectName)}
-        />
+        {createButton("Create task")}
+        <br />
         <button className="cancel" onClick={onCancel}>
           Cancel
         </button>

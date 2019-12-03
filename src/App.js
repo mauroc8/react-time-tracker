@@ -13,7 +13,7 @@ function App() {
   }
 
   return (
-    <div className="task-flex">
+    <div className="task-container">
       {tasks.map(task => (
         <Task
           key={`${task.project}/${task.name}`}

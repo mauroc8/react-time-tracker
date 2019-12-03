@@ -23,7 +23,7 @@ export default function CreateTask({ projects, projectColors, updateTasks }) {
       className="task task-head new-task"
       onClick={() => setIsCreatingTask(true)}
     >
-      New Task
+      New task
     </button>
   );
 }
