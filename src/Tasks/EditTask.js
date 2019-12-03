@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import API_URL from "../API_URL";
 import { useWillUnmount } from "../hooks";
+import TaskTimer from "./TaskTimer";
 
 const _fromEvent = setter => evt => setter(evt.target.value);
 
@@ -19,8 +20,7 @@ function EditTask({ task, cancelEdition, updateTasks }) {
         new_task: {
           ...task,
           name: taskName,
-          seconds: hours * 60 * 60 + minutes * 60,
-          last_modified: Date.now()
+          seconds: hours * 60 * 60 + minutes * 60
         }
       })
       .then(resp => {
@@ -56,18 +56,34 @@ function EditTask({ task, cancelEdition, updateTasks }) {
       });
   }
 
+  const confirmButton = children => (
+    <button className="confirm" onClick={editTask} disabled={!taskName}>
+      {children}
+    </button>
+  );
+
   return (
     <div className="task" style={{ "--task-color": task.color }}>
       <div className="task-head">
-        <h3>Edit task</h3>
-        <input
-          type="text"
-          value={taskName}
-          onChange={_fromEvent(setTaskName)}
-        />
+        <TaskTimer seconds={task.seconds}>
+          {confirmButton(
+            <img
+              src="/baseline_edit_white_24dp.png"
+              alt="Edit task"
+              title="Edit task"
+            />
+          )}
+        </TaskTimer>
       </div>
       <div className="task-body">
-        <div>Elapsed time</div>
+        <h3>
+          <input
+            type="text"
+            placeholder="Task name"
+            value={taskName}
+            onChange={_fromEvent(setTaskName)}
+          />
+        </h3>
         <input
           type="number"
           min={0}
@@ -84,6 +100,11 @@ function EditTask({ task, cancelEdition, updateTasks }) {
         />
       </div>
       <div className="task-foot">
+        {confirmButton("Edit task")}
+        <br />
+        <button className="cancel" onClick={cancelEdition}>
+          Cancel
+        </button>
         <button
           className="delete"
           onClick={() => {
@@ -92,12 +113,6 @@ function EditTask({ task, cancelEdition, updateTasks }) {
           }}
         >
           {!hasClickedDelete ? "Delete" : "Delete?"}
-        </button>{" "}
-        <button className="confirm" onClick={editTask} disabled={!taskName}>
-          Confirm
-        </button>{" "}
-        <button className="cancel" onClick={cancelEdition}>
-          Cancel
         </button>
       </div>
     </div>

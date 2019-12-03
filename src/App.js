@@ -13,7 +13,12 @@ function App() {
   }
 
   return (
-    <div className="task-flex">
+    <div className="task-container">
+      <CreateTask
+        projects={projects}
+        projectColors={projectColors}
+        updateTasks={updateTasks}
+      />
       {tasks.map(task => (
         <Task
           key={`${task.project}/${task.name}`}
@@ -22,11 +27,6 @@ function App() {
           updateTasks={updateTasks}
         />
       ))}
-      <CreateTask
-        projects={projects}
-        projectColors={projectColors}
-        updateTasks={updateTasks}
-      />
     </div>
   );
 }

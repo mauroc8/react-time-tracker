@@ -34,9 +34,7 @@ export function useTasks(filterByProject) {
   }, [willUnmount, updateCounter]);
 
   if (tasks !== null) {
-    tasks = tasks.sort(
-      (taskA, taskB) => taskB.last_modified - taskA.last_modified
-    );
+    tasks = tasks.sort((taskA, taskB) => taskB.timestamp - taskA.timestamp);
 
     if (typeof filterByProject === "string") {
       tasks = tasks.filter(task => task.project === filterByProject);

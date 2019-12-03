@@ -21,16 +21,24 @@ describe("CreateTaskForm", () => {
   });
 
   it("doesn't allow to submit when taskName or projectName is empty", () => {
-    expect(createTaskForm.find('input[type="submit"]').prop("disabled")).to.be
-      .true;
+    expect(
+      createTaskForm
+        .find("button.confirm")
+        .at(0)
+        .prop("disabled")
+    ).to.be.true;
 
     createTaskForm
       .find("#task-name")
       .simulate("change", { target: { value: "New Task" } });
     createTaskForm.update();
 
-    expect(createTaskForm.find('input[type="submit"]').prop("disabled")).to.be
-      .true;
+    expect(
+      createTaskForm
+        .find("button.confirm")
+        .at(0)
+        .prop("disabled")
+    ).to.be.true;
   });
 
   it("allows form submit when both taskName and projectName are set", () => {
@@ -40,8 +48,12 @@ describe("CreateTaskForm", () => {
       .simulate("change", { target: { value: "New Project" } });
     createTaskForm.update();
 
-    expect(createTaskForm.find('input[type="submit"]').prop("disabled")).to.be
-      .false;
+    expect(
+      createTaskForm
+        .find("button.confirm")
+        .at(0)
+        .prop("disabled")
+    ).to.be.false;
   });
 
   it("only prompts to create a new project when there's no project selected", () => {
@@ -70,8 +82,12 @@ describe("CreateTaskForm", () => {
       .find("#task-name")
       .simulate("change", { target: { value: "New Task" } });
     createTaskForm.update();
-    expect(createTaskForm.find('input[type="submit"]').prop("disabled")).to.be
-      .false;
+    expect(
+      createTaskForm
+        .find("button.confirm")
+        .at(0)
+        .prop("disabled")
+    ).to.be.false;
   });
 
   it("makes a successfull request, which then calls onCreate, on submit", async () => {

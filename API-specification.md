@@ -12,9 +12,8 @@ The app will disable the mocked backend.
 ## Types
 
 ```js
-TASK = { name: string, project: string, seconds: int, color: COLOR, last_modified: TIMESTAMP }
+TASK = { name: string, project: string, seconds: int, color: COLOR, timestamp: int }
 COLOR = any hex color using the format '#XXXXXX' (where X is an hex digit)
-TIMESTAMP = unix timestamp
 ```
 
 ## Endpoints
@@ -47,6 +46,6 @@ Throws 403 if the task doesn't exist.
 
 - There can be two tasks with the same name, but in different projects. Two tasks are "the same" iff `taskA.name === taskB.name && taskA.project === taskB.project`.
 
-- The back-end **shouldn't** change the `last_modified` field. The front-end takes care of that.
+- The back-end **shouldn't** change the `timestamp` field. It's used for ordering.
 
 - The behaviour of the backend is mocked --using localStorage for persistence-- in [/src/mockAdapter.js](src/mockAdapter.js).

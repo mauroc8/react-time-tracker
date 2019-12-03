@@ -12,7 +12,7 @@ describe("Task", () => {
     name: "Task Name",
     project: "Task Project",
     color: "#ff0000",
-    last_modified: Date.now(),
+    timestamp: Date.now(),
     seconds: 120
   };
   let updateTasks = jest.fn();

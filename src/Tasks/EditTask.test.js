@@ -8,13 +8,12 @@ import API_URL from "../API_URL";
 
 describe("Edit Task", () => {
   let editTaskWrapper;
-  let lastModified = Date.now();
   let task = {
     name: "Task Name",
     project: "Task Project",
     color: "#ff0000",
     seconds: Math.floor(Math.random() * 24 * 60 * 60),
-    last_modified: lastModified
+    timestamp: Date.now()
   };
   let cancelEdition = jest.fn();
   let updateTasks = jest.fn();
@@ -52,10 +51,20 @@ describe("Edit Task", () => {
   it("disables confirm button if task name is empty", () => {
     taskNameInput.simulate("change", { target: { value: "" } });
     editTaskWrapper.update();
-    expect(editTaskWrapper.find("button.confirm").prop("disabled")).to.be.true;
+    expect(
+      editTaskWrapper
+        .find("button.confirm")
+        .at(0)
+        .prop("disabled")
+    ).to.be.true;
     taskNameInput.simulate("change", { target: { value: task.name } });
     editTaskWrapper.update();
-    expect(editTaskWrapper.find("button.confirm").prop("disabled")).to.be.false;
+    expect(
+      editTaskWrapper
+        .find("button.confirm")
+        .at(0)
+        .prop("disabled")
+    ).to.be.false;
   });
 
   let newHour;
@@ -71,7 +80,10 @@ describe("Edit Task", () => {
 
     editTaskWrapper.update();
 
-    editTaskWrapper.find("button.confirm").simulate("click");
+    editTaskWrapper
+      .find("button.confirm")
+      .at(0)
+      .simulate("click");
 
     await new Promise(succ => setTimeout(succ, 300));
 
@@ -89,7 +101,6 @@ describe("Edit Task", () => {
 
     expect(editedTask).to.exist;
     expect(editedTask.seconds).to.be.equal(newHour * 60 * 60 + newMinutes * 60);
-    expect(editedTask.last_modified).to.not.be.equal(lastModified);
   });
 });
 
@@ -101,7 +112,7 @@ describe("Delete task", () => {
     project: "Task Project",
     color: "#ff0000",
     seconds: Math.floor(Math.random() * 24 * 60 * 60),
-    last_modified: lastModified
+    timestamp: lastModified
   };
   let cancelEdition = jest.fn();
   let updateTasks = jest.fn();
