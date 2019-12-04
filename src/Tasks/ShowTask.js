@@ -99,10 +99,10 @@ function ShowTask({ task, editTask, updateTasks, selectProject, tasks }) {
 
   // Save task every minute
   useEffect(() => {
-    if (seconds !== task.seconds && seconds % 60 === 0) {
+    if (isTimerRunning && seconds !== task.seconds && seconds % 60 === 0) {
       saveTask();
     }
-  }, [saveTask, seconds, task.seconds]);
+  }, [isTimerRunning, saveTask, seconds, task.seconds]);
 
   function reorderTasks(other) {
     const otherIndex = tasks.findIndex(isTaskEqualTo(other));
@@ -180,7 +180,7 @@ function ShowTask({ task, editTask, updateTasks, selectProject, tasks }) {
           {!isTimerRunning ? (
             <button className="start" onClick={() => setIsTimerRunning(true)}>
               <img
-                src="/baseline_play_arrow_white_24dp.png"
+                src={`${process.env.PUBLIC_URL}/baseline_play_arrow_white_24dp.png`}
                 alt="Start timer"
                 title="Start timer"
               />
@@ -193,7 +193,7 @@ function ShowTask({ task, editTask, updateTasks, selectProject, tasks }) {
               }}
             >
               <img
-                src="/baseline_pause_white_24dp.png"
+                src={`${process.env.PUBLIC_URL}/baseline_pause_white_24dp.png`}
                 alt="Stop timer"
                 title="Stop timer"
               />

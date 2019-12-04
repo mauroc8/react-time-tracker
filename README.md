@@ -1,5 +1,9 @@
 # React Time Tracker
 
+![Time tracker demo](demo.gif)
+
+[Open demo!](https://mauroc8.github.io/react-time-tracker/)
+
 A minimal time-tracking web app. Made to learn [react hooks](https://reactjs.org/docs/hooks-intro.html).
 It features:
 
@@ -36,3 +40,7 @@ To make a real API for this app, please read the [API specification](API-specifi
 - Windows (powershell): `$env:REACT_APP_API="https://my-real-api.com"` and `npm start`
 
 Please contact me to solve integration issues that may arise.
+
+## License
+
+Published under [MIT License](LICENSE.md).

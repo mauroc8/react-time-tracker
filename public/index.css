@@ -2,7 +2,7 @@
   --background-color: #eee;
   --color: #333;
   --background-color-strong: white;
-  --color-strong: white;
+  --color-strong: black;
 }
 
 /*
@@ -193,7 +193,7 @@ optgroup {
   width: 100%;
   margin: 0;
   padding-left: 26px;
-  background-image: url("/baseline_search_black_18dp.png");
+  background-image: url("baseline_search_black_18dp.png");
   background-repeat: no-repeat;
   background-position: left 4px top 4px;
 }
@@ -217,4 +217,11 @@ optgroup {
 .footer {
   font-size: 0.86em;
   opacity: 0.7;
+}
+
+a,
+a:hover,
+a:visited,
+a:active {
+  color: var(--color-strong);
 }

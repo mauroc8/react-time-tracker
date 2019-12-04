@@ -81,7 +81,7 @@ function EditTask({ task, cancelEdition, updateTasks }) {
         <TaskTimer seconds={task.seconds}>
           {confirmButton(
             <img
-              src="/baseline_edit_white_24dp.png"
+              src={`${process.env.PUBLIC_URL}/baseline_edit_white_24dp.png`}
               alt="Edit task"
               title="Edit task"
             />

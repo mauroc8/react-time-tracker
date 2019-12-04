@@ -33,7 +33,9 @@ function App() {
       <div className="footer task">
         Mauro Cano Brusa (c) 2019
         <br />
-        <a href="https://github.com/mauroc8/react-time-tracker">View source</a>
+        This app uses localStorage: all the data is saved in your computer.
+        Don't use it to store sensitive information.{" "}
+        <a href="https://github.com/mauroc8/react-time-tracker">View source</a>.
       </div>
     </div>
   );

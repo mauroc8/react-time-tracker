@@ -71,7 +71,7 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
         <TaskTimer seconds={0}>
           {createButton(
             <img
-              src="/baseline_add_white_24dp.png"
+              src={`${process.env.PUBLIC_URL}/baseline_add_white_24dp.png`}
               alt="Create task"
               title="Create task"
             />
@@ -119,7 +119,7 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
         ) : (
           ""
         )}
-        {selectedProjectName === "" ? (
+        {selectedProjectName === "" || !projects.length ? (
           <>
             <input
               type="text"
