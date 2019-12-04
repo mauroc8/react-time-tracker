@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.js": "/react-time-tracker/static/js/main.f06b24f8.chunk.js",
-    "main.js.map": "/react-time-tracker/static/js/main.f06b24f8.chunk.js.map",
+    "main.js": "/react-time-tracker/static/js/main.72441b1e.chunk.js",
+    "main.js.map": "/react-time-tracker/static/js/main.72441b1e.chunk.js.map",
     "runtime-main.js": "/react-time-tracker/static/js/runtime-main.0caad49a.js",
     "runtime-main.js.map": "/react-time-tracker/static/js/runtime-main.0caad49a.js.map",
     "static/js/2.0602d3f3.chunk.js": "/react-time-tracker/static/js/2.0602d3f3.chunk.js",
     "static/js/2.0602d3f3.chunk.js.map": "/react-time-tracker/static/js/2.0602d3f3.chunk.js.map",
     "index.html": "/react-time-tracker/index.html",
-    "precache-manifest.95362b11a801eb04e107ec25726fe73b.js": "/react-time-tracker/precache-manifest.95362b11a801eb04e107ec25726fe73b.js",
+    "precache-manifest.9103b730ba9c948f8606c7cd7060b3af.js": "/react-time-tracker/precache-manifest.9103b730ba9c948f8606c7cd7060b3af.js",
     "service-worker.js": "/react-time-tracker/service-worker.js"
   },
   "entrypoints": [
     "static/js/runtime-main.0caad49a.js",
     "static/js/2.0602d3f3.chunk.js",
-    "static/js/main.f06b24f8.chunk.js"
+    "static/js/main.72441b1e.chunk.js"
   ]
 }
