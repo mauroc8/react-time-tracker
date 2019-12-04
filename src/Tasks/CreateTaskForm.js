@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import API_URL from "../API_URL";
 import TaskTimer from "./TaskTimer";
+import { useErrorMessage } from "../hooks";
 
 const _fromEvent = setter => evt => setter(evt.target.value);
 
@@ -27,6 +28,8 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
     ? projectColors[selectedProjectName]
     : newProjectColor;
 
+  const [errorDiv, setErrorMessage] = useErrorMessage();
+
   function handleSubmit(event) {
     event.preventDefault();
 
@@ -40,8 +43,12 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
       })
       .then(onCreate)
       .catch(err => {
-        // TO DO: handle this error
-        console.error(err);
+        if (err.response && err.response.status === 403) {
+          setErrorMessage("The task already exists!");
+        } else {
+          setErrorMessage("Error connecting with the server.");
+          console.error(err);
+        }
       });
   }
 
@@ -131,6 +138,7 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
         ) : (
           ""
         )}
+        {errorDiv}
       </div>
       <div className="task-foot">
         {createButton("Create task")}

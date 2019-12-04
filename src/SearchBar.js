@@ -5,6 +5,7 @@ const _fromEvent = setter => evt => setter(evt.target.value);
 function SearchBar({ searchQuery, setSearchQuery }) {
   const inputRef = useRef(null);
 
+  // Use Escape key to clear and focus
   useEffect(() => {
     function handleEscape(event) {
       if (event.key === "Escape") {
@@ -18,6 +19,13 @@ function SearchBar({ searchQuery, setSearchQuery }) {
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, [setSearchQuery]);
+
+  // Focus input when searchQuery changes
+  useEffect(() => {
+    if (inputRef) {
+      inputRef.current.focus();
+    }
+  }, [searchQuery]);
 
   return (
     <div className="search-bar">

@@ -36,6 +36,14 @@ mockAdapter.onPatch(`${mockAPI}/tasks/`).reply(config => {
 
   const task = tasks.find(isTaskEqualTo(old_task));
 
+  if (
+    !isTaskEqualTo(old_task)(new_task) &&
+    tasks.some(isTaskEqualTo(new_task))
+  ) {
+    // Trying to change task name, but it already exists a task with the new name.
+    return [405, {}];
+  }
+
   if (task === undefined) {
     return [403, {}];
   }

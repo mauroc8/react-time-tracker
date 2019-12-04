@@ -9,6 +9,7 @@ It features:
 - [x] Delete tasks.
 - [x] Start/end time record on a task.
 - [x] Filter tasks by project.
+- [x] Drag and drop to reorder tasks (in desktop browsers).
 
 ## Run
 
@@ -17,13 +18,6 @@ It features:
 1. `npm install` (only the first time)
 2. `npm start`
 
-The site uses a [mocked API](src/mockAdapter.js) which basically saves everything to localStorage.
-
-To make a real API for this app, please read the [API specification](API-specification.md). Then run with an enviroment variable:
-
-- Linux: `REACT_APP_API="https://my-real-api.com" npm start`
-- Windows (powershell): `$env:REACT_APP_API="https://my-real-api.com"` and `npm start`
-
 ## Run tests
 
 `npm test`
@@ -31,3 +25,14 @@ To make a real API for this app, please read the [API specification](API-specifi
 You can also test using your own API (setting the enviroment variable also works here).
 
 > The test suite will only wait 300 ms for http requests.
+
+## Backend
+
+The site uses a [mocked API](src/mockAdapter.js) which basically saves everything to localStorage.
+
+To make a real API for this app, please read the [API specification](API-specification.md). Then run with an enviroment variable:
+
+- Linux: `REACT_APP_API="https://my-real-api.com" npm start`
+- Windows (powershell): `$env:REACT_APP_API="https://my-real-api.com"` and `npm start`
+
+Please contact me to solve integration issues that may arise.

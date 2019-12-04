@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "./API_URL";
 
@@ -24,6 +24,7 @@ export function useTasks(searchQuery) {
   const willUnmount = useWillUnmount();
   let [tasks, setTasks] = useState(null);
   const [updateCounter, setUpdateCounter] = useState(0);
+  const [errorDiv, setErrorMessage] = useErrorMessage();
 
   useEffect(() => {
     axios
@@ -35,11 +36,17 @@ export function useTasks(searchQuery) {
       })
       .catch(err => {
         if (!willUnmount) {
-          // TO DO: handle errors.
-          console.log(err);
+          if (err.response) {
+            setErrorMessage("The server responded with an error.");
+          } else {
+            setErrorMessage(
+              "Error connecting with the server. Please reload the tab."
+            );
+            console.error(err);
+          }
         }
       });
-  }, [willUnmount, updateCounter]);
+  }, [willUnmount, updateCounter, setErrorMessage]);
 
   if (tasks !== null) {
     tasks = tasks.sort((taskA, taskB) => taskB.timestamp - taskA.timestamp);
@@ -72,7 +79,7 @@ export function useTasks(searchQuery) {
     setUpdateCounter(updateCounter + 1);
   };
 
-  return [tasks, updateTasks];
+  return [tasks, updateTasks, errorDiv];
 }
 
 export function getProjectsFromTasks(tasks) {
@@ -92,4 +99,34 @@ export function getProjectsFromTasks(tasks) {
   }, []);
 
   return [projects, projectColors];
+}
+
+export function useErrorMessage() {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isHidden, setIsHidden] = useState(true);
+
+  const errorDiv = (
+    <div className={`error-message ${isHidden ? `hidden` : ``}`}>
+      {errorMessage}
+    </div>
+  );
+
+  useEffect(() => {
+    if (errorMessage) {
+      setIsHidden(false);
+
+      let timeout = setTimeout(() => {
+        setIsHidden(true);
+        setErrorMessage("");
+        timeout = null;
+      }, 3200);
+      return () => {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+      };
+    }
+  }, [errorMessage]);
+
+  return [errorDiv, setErrorMessage];
 }

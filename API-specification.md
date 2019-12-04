@@ -32,7 +32,8 @@ Throws 403 if task already exists.
 
 **Input:** `{ old_task: { name: string, project: string }, new_task: TASK }`. Replaces old task w/new one.
 
-Throws 403 if the task doesn't exist.
+Throws 403 if the old task doesn't exist.
+Throws 405 if editing the task would result in two tasks with the same name and project.
 
 ### POST: `/delete-task/`
 

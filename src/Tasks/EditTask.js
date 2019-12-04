@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import API_URL from "../API_URL";
-import { useWillUnmount } from "../hooks";
+import { useWillUnmount, useErrorMessage } from "../hooks";
 import TaskTimer from "./TaskTimer";
 
 const _fromEvent = setter => evt => setter(evt.target.value);
@@ -12,6 +12,7 @@ function EditTask({ task, cancelEdition, updateTasks }) {
   const [hours, setHours] = useState(Math.floor(task.seconds / 60 / 60));
   const willUnmount = useWillUnmount();
   const [hasClickedDelete, setHasClickedDelete] = useState(false);
+  const [errorDiv, setErrorMessage] = useErrorMessage();
 
   function editTask() {
     axios
@@ -30,7 +31,14 @@ function EditTask({ task, cancelEdition, updateTasks }) {
         updateTasks();
       })
       .catch(err => {
-        console.error(err);
+        if (err.response && err.response.status === 405) {
+          setErrorMessage("A task with that name already exists.");
+        } else if (err.response && err.response.status === 403) {
+          setErrorMessage("Invalid request: this task doesn't exist anymore!");
+        } else {
+          setErrorMessage("Error connecting with the server.");
+          console.error(err);
+        }
       });
   }
 
@@ -52,7 +60,12 @@ function EditTask({ task, cancelEdition, updateTasks }) {
         );
       })
       .catch(err => {
-        console.error(err);
+        if (err.response && err.response.status === 403) {
+          setErrorMessage("Invalid request: the task was already deleted!");
+        } else {
+          setErrorMessage("Error connecting with the server.");
+          console.error(err);
+        }
       });
   }
 
@@ -98,6 +111,7 @@ function EditTask({ task, cancelEdition, updateTasks }) {
           value={minutes}
           onChange={_fromEvent(setMinutes)}
         />
+        {errorDiv}
       </div>
       <div className="task-foot">
         {confirmButton("Edit task")}

@@ -16,7 +16,7 @@ function drawTime(cx, width, height, percent) {
   const endAngle = Math.PI * 2 * percent + startAngle;
   const center = [width / 2, height / 2];
 
-  cx.globalAlpha = 0.2;
+  cx.globalAlpha = 0.3;
   cx.clearRect(0, 0, width, height);
   cx.beginPath();
   cx.moveTo(...center);
