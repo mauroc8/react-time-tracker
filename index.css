@@ -1,0 +1,220 @@
+:root {
+  --background-color: #eee;
+  --color: #333;
+  --background-color-strong: white;
+  --color-strong: white;
+}
+
+/*
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #222;
+    --color: #ddd;
+    --background-color-strong: black;
+    --color-strong: white;
+  }
+}
+*/
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--color);
+  font-family: "Averia Sans Libre", cursive;
+}
+
+:root {
+  --task-color: var(--color);
+  --task-start-button-size: 50px;
+}
+
+.task {
+  margin: 10px;
+  clear: both;
+  width: 450px;
+  color: var(--task-color);
+}
+
+button.new-task {
+  width: auto;
+}
+
+@media (max-width: 470px) {
+  .task {
+    width: auto;
+    max-width: 450px;
+  }
+}
+
+.task-foot {
+  margin-bottom: 10px;
+}
+
+.task-body {
+  min-height: var(--task-start-button-size);
+  width: calc(100% - 60px);
+  box-sizing: border-box;
+}
+
+.float-left {
+  float: left;
+}
+
+.task-foot {
+  float: right;
+  padding: 0.3em;
+}
+
+.task-head,
+.task-body {
+  float: left;
+  padding: 0.3em;
+}
+
+.task h3 {
+  margin: 0 0;
+}
+
+button {
+  background-color: var(--background-color-strong);
+  color: inherit;
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: 0;
+  font: inherit;
+  margin: 4px 3px;
+  cursor: pointer;
+}
+
+button:disabled,
+option:disabled {
+  color: lightgray;
+  cursor: default;
+}
+
+input,
+select {
+  font: inherit;
+  padding: 4px 8px;
+  margin: 4px 3px;
+  background-color: var(--background-color-strong);
+  color: var(--task-color);
+  border-radius: 4px;
+  border: 0;
+}
+
+option {
+  color: var(--task-color);
+  font-family: inherit;
+}
+
+input[type="number"] {
+  width: 2.5em;
+}
+
+input[type="text"] {
+  box-sizing: border-box;
+  width: calc(100% - 6px);
+}
+
+button.delete {
+  color: var(--color-strong);
+  background-color: var(--task-color);
+}
+
+button.new-task {
+  background-color: var(--color);
+  color: var(--background-color);
+}
+
+optgroup {
+  color: var(--color);
+}
+
+.task-timer-container {
+  float: left;
+  background-color: var(--task-color);
+  color: var(--color-strong);
+  position: relative;
+  height: var(--task-start-button-size);
+  width: var(--task-start-button-size);
+  border-radius: calc(var(--task-start-button-size) / 2);
+  overflow: hidden;
+}
+
+.task-timer,
+.task-timer-container button,
+.task-timer-container img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.task-timer {
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: width 0.3s ease-in;
+}
+
+.task-timer-container button {
+  background-color: transparent;
+  margin: 0;
+  z-index: 2;
+  padding: 0.3em;
+}
+
+.task-timer-container button:disabled {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+:root {
+  --icon-size: 32px;
+}
+
+.task-timer-container img {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  --icon-offset: calc(var(--icon-size) / 2);
+  left: calc(50% - var(--icon-offset));
+  top: calc(50% - var(--icon-offset));
+}
+
+.search-bar {
+  padding: 0.3em;
+  max-width: 450px;
+}
+
+.search-bar input {
+  color: inherit;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding-left: 26px;
+  background-image: url("baseline_search_black_18dp.png");
+  background-repeat: no-repeat;
+  background-position: left 4px top 4px;
+}
+
+.clickable {
+  cursor: pointer;
+  border-bottom: 1px dashed var(--task-color);
+}
+
+.error-message.hidden {
+  height: 0em;
+}
+
+.error-message {
+  overflow: hidden;
+  color: red;
+  height: 1.5em;
+  transition: height 0.5s ease-out;
+}
+
+.footer {
+  font-size: 0.86em;
+  opacity: 0.7;
+}
