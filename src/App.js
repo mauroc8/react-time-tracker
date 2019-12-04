@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Task from "./Tasks/Task";
 import CreateTask from "./Tasks/CreateTask";
 import { useTasks, getProjectsFromTasks } from "./hooks";
+import SearchBar from "./SearchBar";
 
 function App() {
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [tasks, updateTasks] = useTasks(selectedProject);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [tasks, updateTasks] = useTasks(searchQuery);
   const [projects, projectColors] = getProjectsFromTasks(tasks);
 
   if (tasks === null) {
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <div className="task-container">
+      <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <CreateTask
         projects={projects}
         projectColors={projectColors}
@@ -23,7 +25,7 @@ function App() {
         <Task
           key={`${task.project}/${task.name}`}
           task={task}
-          selectProject={setSelectedProject}
+          selectProject={setSearchQuery}
           updateTasks={updateTasks}
         />
       ))}

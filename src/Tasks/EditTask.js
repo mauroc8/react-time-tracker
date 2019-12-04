@@ -101,7 +101,6 @@ function EditTask({ task, cancelEdition, updateTasks }) {
       </div>
       <div className="task-foot">
         {confirmButton("Edit task")}
-        <br />
         <button className="cancel" onClick={cancelEdition}>
           Cancel
         </button>

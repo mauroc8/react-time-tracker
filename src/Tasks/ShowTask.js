@@ -7,7 +7,7 @@ const zeroPad = number => {
   return String(100 + (number % 100)).substr(1);
 };
 
-function ShowTask({ task, editTask, updateTasks }) {
+function ShowTask({ task, editTask, updateTasks, selectProject }) {
   const [seconds, setSeconds] = useState(task.seconds);
   const minutes = Math.floor(seconds / 60) % 60;
   const hours = Math.floor(seconds / 60 / 60);
@@ -97,23 +97,30 @@ function ShowTask({ task, editTask, updateTasks }) {
         </TaskTimer>
       </div>
       <div className="task-body">
-        <h3>{task.name}</h3>
-        {zeroPad(hours)}:{zeroPad(minutes)}
-        {" - "}
-        <span>{task.project}</span>
-      </div>
-      <div className="task-foot">
-        <button
-          className="edit"
-          onClick={() => {
-            if (isTimerRunning) {
-              stopTimer();
-            }
-            editTask();
-          }}
-        >
-          Edit
-        </button>
+        <div className="float-left">
+          <h3>{task.name}</h3>
+          {zeroPad(hours)}:{zeroPad(minutes)}
+          {" - "}
+          <span
+            className="clickable"
+            onClick={() => selectProject(task.project)}
+          >
+            {task.project}
+          </span>
+        </div>
+        <div className="task-foot">
+          <button
+            className="edit"
+            onClick={() => {
+              if (isTimerRunning) {
+                stopTimer();
+              }
+              editTask();
+            }}
+          >
+            Edit
+          </button>
+        </div>
       </div>
     </div>
   );

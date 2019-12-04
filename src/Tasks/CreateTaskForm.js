@@ -134,7 +134,6 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
       </div>
       <div className="task-foot">
         {createButton("Create task")}
-        <br />
         <button className="cancel" onClick={onCancel}>
           Cancel
         </button>

@@ -12,7 +12,7 @@ export function useWillUnmount() {
   return willUnmount;
 }
 
-export function useTasks(filterByProject) {
+export function useTasks(searchQuery) {
   const willUnmount = useWillUnmount();
   let [tasks, setTasks] = useState(null);
   const [updateCounter, setUpdateCounter] = useState(0);
@@ -36,8 +36,22 @@ export function useTasks(filterByProject) {
   if (tasks !== null) {
     tasks = tasks.sort((taskA, taskB) => taskB.timestamp - taskA.timestamp);
 
-    if (typeof filterByProject === "string") {
-      tasks = tasks.filter(task => task.project === filterByProject);
+    if (searchQuery.length) {
+      const searchWords = searchQuery
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ")
+        .split(" ");
+
+      if (searchWords.length) {
+        tasks = tasks.filter(task =>
+          searchWords.every(
+            word =>
+              task.name.toLowerCase().includes(word) ||
+              task.project.toLowerCase().includes(word)
+          )
+        );
+      }
     }
   }
 
