@@ -1,5 +1,6 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
+import { isTaskEqualTo } from "./hooks";
 
 const mockAPI = "https://mock.adapter.com";
 const mockAdapter = new MockAdapter(axios, { delayResponse: 180 });
@@ -11,9 +12,6 @@ function getTasks() {
 function saveTasks(tasks) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
-
-const isTaskEqualTo = taskA => taskB =>
-  taskA.name === taskB.name && taskA.project === taskB.project;
 
 let tasks = getTasks();
 

@@ -8,7 +8,7 @@ It features:
 - [x] Edit tasks.
 - [x] Delete tasks.
 - [x] Start/end time record on a task.
-- [ ] Filter tasks by project.
+- [x] Filter tasks by project.
 
 ## Run
 

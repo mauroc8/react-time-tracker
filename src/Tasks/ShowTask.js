@@ -7,7 +7,13 @@ const zeroPad = number => {
   return String(100 + (number % 100)).substr(1);
 };
 
-function ShowTask({ task, editTask, updateTasks, selectProject }) {
+function ShowTask({
+  task,
+  editTask,
+  updateTasks,
+  selectProject,
+  reorderTasks
+}) {
   const [seconds, setSeconds] = useState(task.seconds);
   const minutes = Math.floor(seconds / 60) % 60;
   const hours = Math.floor(seconds / 60 / 60);
@@ -59,6 +65,16 @@ function ShowTask({ task, editTask, updateTasks, selectProject }) {
 
   return (
     <div
+      draggable
+      onDragStart={evt => {
+        evt.dataTransfer.setData("text/plain", `${task.name}/${task.project}`);
+      }}
+      onDragOver={evt => evt.preventDefault()}
+      onDrop={evt => {
+        evt.preventDefault();
+        const [name, project] = evt.dataTransfer.getData("text").split("/");
+        reorderTasks({ name, project }, task);
+      }}
       className="task"
       style={{
         "--task-color": task.color

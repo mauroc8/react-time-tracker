@@ -2,6 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "./API_URL";
 
+export const isTaskEqualTo = task => otherTask =>
+  task.name === otherTask.name && task.project === otherTask.project;
+
+export function formatTaskName(name) {
+  // The slash is needed to separate task name from project.
+  return name.replace(/\//g, "-");
+}
+
 export function useWillUnmount() {
   const [willUnmount, setWillUnmount] = useState(false);
 
