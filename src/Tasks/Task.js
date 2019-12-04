@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ShowTask from "./ShowTask";
 import EditTask from "./EditTask";
 
-function Task({ task, updateTasks, selectProject, reorderTasks }) {
+function Task({ task, updateTasks, selectProject, tasks }) {
   const [isEditing, setIsEditing] = useState(false);
 
   if (isEditing) {
@@ -21,7 +21,7 @@ function Task({ task, updateTasks, selectProject, reorderTasks }) {
       editTask={() => setIsEditing(true)}
       updateTasks={updateTasks}
       selectProject={selectProject}
-      reorderTasks={reorderTasks}
+      tasks={tasks}
     />
   );
 }

@@ -2,18 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../API_URL";
 import TaskTimer from "./TaskTimer";
+import { isTaskEqualTo } from "../hooks";
 
 const zeroPad = number => {
   return String(100 + (number % 100)).substr(1);
 };
 
-function ShowTask({
-  task,
-  editTask,
-  updateTasks,
-  selectProject,
-  reorderTasks
-}) {
+function ShowTask({ task, editTask, updateTasks, selectProject, tasks }) {
   const [seconds, setSeconds] = useState(task.seconds);
   const minutes = Math.floor(seconds / 60) % 60;
   const hours = Math.floor(seconds / 60 / 60);
@@ -60,6 +55,40 @@ function ShowTask({
       .catch(err => {
         // TO DO: handle this error
         console.error(err);
+      });
+  }
+
+  function reorderTasks(other) {
+    const otherIndex = tasks.findIndex(isTaskEqualTo(other));
+    const taskIndex = tasks.findIndex(isTaskEqualTo(task));
+
+    if (otherIndex === -1 || taskIndex === -1) return;
+
+    let otherTimestamp;
+
+    if (otherIndex < taskIndex) {
+      otherTimestamp =
+        taskIndex >= tasks.length - 1
+          ? task.timestamp - 9000
+          : tasks[taskIndex + 1].timestamp;
+    } else {
+      otherTimestamp =
+        taskIndex > 0 ? tasks[taskIndex - 1].timestamp : Date.now();
+    }
+
+    const timestamp = Math.floor((task.timestamp + otherTimestamp) / 2);
+    const otherTask = tasks.find(isTaskEqualTo(other));
+
+    axios
+      .patch(`${API_URL}/tasks/`, {
+        old_task: other,
+        new_task: { ...otherTask, timestamp }
+      })
+      .then(resp => {
+        updateTasks();
+      })
+      .catch(err => {
+        console.log(err);
       });
   }
 
