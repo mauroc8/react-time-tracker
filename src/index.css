@@ -197,9 +197,15 @@ optgroup {
   width: 100%;
   margin: 0;
   padding-left: 26px;
-  background-image: url("baseline_search_black_18dp.png");
   background-repeat: no-repeat;
   background-position: left 4px top 4px;
+  position: relative;
+}
+
+.search-bar img {
+  position: absolute;
+  margin: 0.4em;
+  z-index: 3;
 }
 
 .clickable {
