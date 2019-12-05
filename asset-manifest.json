@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/react-time-tracker/static/css/main.0494ea38.chunk.css",
-    "main.js": "/react-time-tracker/static/js/main.28b45a06.chunk.js",
-    "main.js.map": "/react-time-tracker/static/js/main.28b45a06.chunk.js.map",
+    "main.css": "/react-time-tracker/static/css/main.a9856768.chunk.css",
+    "main.js": "/react-time-tracker/static/js/main.2b8f5edd.chunk.js",
+    "main.js.map": "/react-time-tracker/static/js/main.2b8f5edd.chunk.js.map",
     "runtime-main.js": "/react-time-tracker/static/js/runtime-main.0caad49a.js",
     "runtime-main.js.map": "/react-time-tracker/static/js/runtime-main.0caad49a.js.map",
     "static/js/2.6c1179ed.chunk.js": "/react-time-tracker/static/js/2.6c1179ed.chunk.js",
     "static/js/2.6c1179ed.chunk.js.map": "/react-time-tracker/static/js/2.6c1179ed.chunk.js.map",
     "index.html": "/react-time-tracker/index.html",
-    "precache-manifest.50448974d66c6013941797dd992c696d.js": "/react-time-tracker/precache-manifest.50448974d66c6013941797dd992c696d.js",
+    "precache-manifest.274bb768659a1f65a34bdad18be9d54d.js": "/react-time-tracker/precache-manifest.274bb768659a1f65a34bdad18be9d54d.js",
     "service-worker.js": "/react-time-tracker/service-worker.js",
-    "static/css/main.0494ea38.chunk.css.map": "/react-time-tracker/static/css/main.0494ea38.chunk.css.map"
+    "static/css/main.a9856768.chunk.css.map": "/react-time-tracker/static/css/main.a9856768.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.0caad49a.js",
     "static/js/2.6c1179ed.chunk.js",
-    "static/css/main.0494ea38.chunk.css",
-    "static/js/main.28b45a06.chunk.js"
+    "static/css/main.a9856768.chunk.css",
+    "static/js/main.2b8f5edd.chunk.js"
   ]
 }
