@@ -14,7 +14,13 @@ const newProjectColors = [
   "#ff3344"
 ];
 
-function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
+function CreateTaskForm({
+  projects,
+  projectColors,
+  onCreate,
+  onCancel,
+  isFirstTime
+}) {
   const [taskName, setTaskName] = useState("");
   const [selectedProjectName, setSelectedProjectName] = useState(
     projects[0] || ""
@@ -73,6 +79,13 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
       onSubmit={handleSubmit}
       style={{ "--task-color": taskColor }}
     >
+      {isFirstTime ? (
+        <div className="first-time-notice">
+          Start by creating a task. Just anything you're working on.
+        </div>
+      ) : (
+        ""
+      )}
       <div className="task-head">
         <TaskTimer seconds={0}>
           {createButton(

@@ -8,7 +8,14 @@ const zeroPad = number => {
   return String(100 + (number % 100)).substr(1);
 };
 
-function ShowTask({ task, editTask, updateTasks, selectProject, tasks }) {
+function ShowTask({
+  task,
+  editTask,
+  updateTasks,
+  selectProject,
+  tasks,
+  onPlayStart
+}) {
   const [seconds, setSeconds] = useState(task.seconds);
   const minutes = Math.floor(seconds / 60) % 60;
   const hours = Math.floor(seconds / 60 / 60);
@@ -178,7 +185,13 @@ function ShowTask({ task, editTask, updateTasks, selectProject, tasks }) {
       <div className="task-head">
         <TaskTimer seconds={seconds} isTimerRunning={isTimerRunning}>
           {!isTimerRunning ? (
-            <button className="start" onClick={() => setIsTimerRunning(true)}>
+            <button
+              className="start"
+              onClick={() => {
+                setIsTimerRunning(true);
+                onPlayStart();
+              }}
+            >
               <img
                 src={`${process.env.PUBLIC_URL}/baseline_play_arrow_white_24dp.png`}
                 alt="Start timer"

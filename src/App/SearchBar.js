@@ -32,12 +32,25 @@ function SearchBar({ searchQuery, setSearchQuery }) {
       <img
         src={`${process.env.PUBLIC_URL}/baseline_search_black_18dp.png`}
         alt=""
+        onClick={() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        }}
       />
       <input
         type="text"
         value={searchQuery}
         onChange={_fromEvent(setSearchQuery)}
         ref={inputRef}
+      />
+      <img
+        src={`${process.env.PUBLIC_URL}/baseline_close_black_18dp.png`}
+        alt=""
+        style={{ right: "2px" }}
+        onClick={() => {
+          setSearchQuery("");
+        }}
       />
     </div>
   );
