@@ -28,15 +28,18 @@ body {
   --task-start-button-size: 50px;
 }
 
+.task-container {
+  width: 470px;
+}
+
 .task {
   margin: 10px;
   clear: both;
-  width: 450px;
   color: var(--task-color);
 }
 
-button.new-task {
-  width: auto;
+.task.new-task {
+  clear: none;
 }
 
 @media (max-width: 470px) {
@@ -82,7 +85,8 @@ button {
   border-radius: 4px;
   border: 0;
   font: inherit;
-  margin: 4px 3px;
+  margin: 4px 6px;
+  margin-left: 0;
   cursor: pointer;
 }
 
@@ -224,4 +228,24 @@ a:hover,
 a:visited,
 a:active {
   color: var(--color-strong);
+}
+
+.local-storage-notice {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 0.9em;
+  padding-bottom: 0.6em;
+  border-radius: 8px;
+  margin: 0.7em 0;
+  line-height: 1.45em;
+}
+
+.button-bar {
+  opacity: 0.75;
+  font-size: 0.85em;
+  float: right;
+}
+
+.button-bar button {
+  margin-top: 0;
+  margin-bottom: 0;
 }
