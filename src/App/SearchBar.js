@@ -29,7 +29,10 @@ function SearchBar({ searchQuery, setSearchQuery }) {
 
   return (
     <div className="search-bar">
-      <img src={`${process.env.PUBLIC_URL}/baseline_search_black_18dp.png`} />
+      <img
+        src={`${process.env.PUBLIC_URL}/baseline_search_black_18dp.png`}
+        alt=""
+      />
       <input
         type="text"
         value={searchQuery}
