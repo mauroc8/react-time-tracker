@@ -20,11 +20,10 @@ export function useWillUnmount() {
   return willUnmount;
 }
 
-export function useTasks(searchQuery) {
+export function useTasks(searchQuery, setErrorMessage) {
   const willUnmount = useWillUnmount();
   let [tasks, setTasks] = useState(null);
   const [updateCounter, setUpdateCounter] = useState(0);
-  const [errorDiv, setErrorMessage] = useErrorMessage();
 
   useEffect(() => {
     axios
@@ -79,7 +78,7 @@ export function useTasks(searchQuery) {
     setUpdateCounter(updateCounter + 1);
   };
 
-  return [tasks, updateTasks, errorDiv];
+  return [tasks, updateTasks];
 }
 
 export function getProjectsFromTasks(tasks) {

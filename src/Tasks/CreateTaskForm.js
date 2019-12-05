@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../API_URL";
 import TaskTimer from "./TaskTimer";
@@ -29,6 +29,12 @@ function CreateTaskForm({ projects, projectColors, onCreate, onCancel }) {
     : newProjectColor;
 
   const [errorDiv, setErrorMessage] = useErrorMessage();
+
+  useEffect(() => {
+    if (projects.length === 0) {
+      setSelectedProjectName("");
+    }
+  }, [projects.length]);
 
   function handleSubmit(event) {
     event.preventDefault();

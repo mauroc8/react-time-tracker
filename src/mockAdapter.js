@@ -6,11 +6,32 @@ const mockAPI = "https://mock.adapter.com";
 const mockAdapter = new MockAdapter(axios, { delayResponse: 180 });
 
 function getTasks() {
-  return JSON.parse(localStorage.getItem("tasks") || "[]");
+  if (localStorage.getItem("tasks")) {
+    return JSON.parse(localStorage.getItem("tasks"));
+  } else {
+    // Try to recover data from cookies
+    return getTasksFromCookies() || [];
+  }
 }
 
 function saveTasks(tasks) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
+  setTasksInCookies(tasks);
+}
+
+function getTasksFromCookies() {
+  const cookie = document.cookie;
+  const match = cookie.match(/tasks=([^;]+)/);
+  const json = match && unescape(match[1]);
+  return json && JSON.parse(json);
+}
+
+function setTasksInCookies(tasks) {
+  const expirationDate = new Date();
+  expirationDate.setFullYear(expirationDate.getFullYear() + 6);
+  document.cookie = `tasks=${escape(
+    JSON.stringify(tasks)
+  )};expires=${expirationDate.toGMTString()}`;
 }
 
 let tasks = getTasks();
@@ -61,6 +82,17 @@ mockAdapter.onPost(`${mockAPI}/delete-task/`).reply(config => {
   }
 
   tasks = tasks.filter(otherTask => !isTaskEqualTo(task)(otherTask));
+  saveTasks(tasks);
+  return [200, {}];
+});
+
+mockAdapter.onPost(`${mockAPI}/import-tasks/`).reply(config => {
+  const newTasks = JSON.parse(config.data);
+
+  tasks = tasks
+    .filter(task => !newTasks.some(isTaskEqualTo(task)))
+    .concat(newTasks);
+
   saveTasks(tasks);
   return [200, {}];
 });

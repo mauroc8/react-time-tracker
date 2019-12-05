@@ -43,6 +43,10 @@ Throws 403 if the task doesn't exist.
 
 > Note: We don't use a DELETE request because it ignores its body.
 
+### POST: `/import-tasks/`
+
+**Input:** `[TASK]`. Appends all tasks received to the current tasks. If there are some conflicts, the new tasks will prevail.
+
 ## Observations
 
 - There can be two tasks with the same name, but in different projects. Two tasks are "the same" iff `taskA.name === taskB.name && taskA.project === taskB.project`.
