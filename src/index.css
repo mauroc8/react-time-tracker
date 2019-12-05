@@ -32,6 +32,13 @@ body {
   width: 470px;
 }
 
+@media (max-width: 470px) {
+  .task-container {
+    width: auto;
+    max-width: 470px;
+  }
+}
+
 .task {
   margin: 10px;
   clear: both;
@@ -40,13 +47,6 @@ body {
 
 .task.new-task {
   clear: none;
-}
-
-@media (max-width: 470px) {
-  .task {
-    width: auto;
-    max-width: 450px;
-  }
 }
 
 .task-foot {
