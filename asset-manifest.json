@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/react-time-tracker/static/css/main.a60164da.chunk.css",
-    "main.js": "/react-time-tracker/static/js/main.56ec3b3c.chunk.js",
-    "main.js.map": "/react-time-tracker/static/js/main.56ec3b3c.chunk.js.map",
+    "main.js": "/react-time-tracker/static/js/main.4190d5de.chunk.js",
+    "main.js.map": "/react-time-tracker/static/js/main.4190d5de.chunk.js.map",
     "runtime-main.js": "/react-time-tracker/static/js/runtime-main.0caad49a.js",
     "runtime-main.js.map": "/react-time-tracker/static/js/runtime-main.0caad49a.js.map",
     "static/js/2.6c1179ed.chunk.js": "/react-time-tracker/static/js/2.6c1179ed.chunk.js",
     "static/js/2.6c1179ed.chunk.js.map": "/react-time-tracker/static/js/2.6c1179ed.chunk.js.map",
     "index.html": "/react-time-tracker/index.html",
-    "precache-manifest.70fc2e1cf393ec1222013eb47baa33c7.js": "/react-time-tracker/precache-manifest.70fc2e1cf393ec1222013eb47baa33c7.js",
+    "precache-manifest.c6012e3fcd7fc1bf3f1f1d18b1b5ec5d.js": "/react-time-tracker/precache-manifest.c6012e3fcd7fc1bf3f1f1d18b1b5ec5d.js",
     "service-worker.js": "/react-time-tracker/service-worker.js",
     "static/css/main.a60164da.chunk.css.map": "/react-time-tracker/static/css/main.a60164da.chunk.css.map"
   },
@@ -16,6 +16,6 @@
     "static/js/runtime-main.0caad49a.js",
     "static/js/2.6c1179ed.chunk.js",
     "static/css/main.a60164da.chunk.css",
-    "static/js/main.56ec3b3c.chunk.js"
+    "static/js/main.4190d5de.chunk.js"
   ]
 }
