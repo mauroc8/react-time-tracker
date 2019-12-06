@@ -69,14 +69,17 @@ function drawTimer(canvas, seconds) {
 
 function TaskTimer({ seconds, isTimerRunning = false, children }) {
   const [startingSeconds, setStartingSeconds] = useState(seconds);
+  const minutes = Math.floor(seconds / 60);
+  const [lastMinutes, setLastMinutes] = useState(minutes);
   const canvasRef = useRef(null);
 
   // Each minute resets the animation
   useEffect(() => {
-    if (seconds % 60 === 0) {
+    if (minutes !== lastMinutes) {
       setStartingSeconds(seconds);
+      setLastMinutes(minutes);
     }
-  }, [seconds]);
+  }, [minutes, lastMinutes, seconds]);
 
   // When timer stops, update starting seconds for next time we hit play
   useEffect(() => {
