@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f46fba72985ab278ed8eff6b2b1e114d",
+    "revision": "51ddb40f3b855dc191bad0339ca1290f",
     "url": "/react-time-tracker/index.html"
   },
   {
-    "revision": "68c627f6aed1e93051ad",
+    "revision": "20af88aa11788d0cdd8e",
     "url": "/react-time-tracker/static/css/main.a60164da.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/react-time-tracker/static/js/2.6c1179ed.chunk.js"
   },
   {
-    "revision": "68c627f6aed1e93051ad",
-    "url": "/react-time-tracker/static/js/main.64f9e3be.chunk.js"
+    "revision": "20af88aa11788d0cdd8e",
+    "url": "/react-time-tracker/static/js/main.fd9cf282.chunk.js"
   },
   {
     "revision": "a48ec5560c2cc21fff07",
