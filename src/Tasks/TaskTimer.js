@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 function initCanvas(canvas) {
   const rect = canvas.getBoundingClientRect();
@@ -67,26 +67,8 @@ function drawTimer(canvas, seconds) {
   drawTime(cx, width, height, percent);
 }
 
-function TaskTimer({ seconds, isTimerRunning = false, children }) {
-  const [startingSeconds, setStartingSeconds] = useState(seconds);
-  const minutes = Math.floor(seconds / 60);
-  const [lastMinutes, setLastMinutes] = useState(minutes);
+function TaskTimer({ startingSeconds, isTimerRunning = false, children }) {
   const canvasRef = useRef(null);
-
-  // Each minute resets the animation
-  useEffect(() => {
-    if (minutes !== lastMinutes) {
-      setStartingSeconds(seconds);
-      setLastMinutes(minutes);
-    }
-  }, [minutes, lastMinutes, seconds]);
-
-  // When timer stops, update starting seconds for next time we hit play
-  useEffect(() => {
-    if (!isTimerRunning) {
-      setStartingSeconds(seconds);
-    }
-  }, [isTimerRunning, seconds]);
 
   // Draw
   useEffect(() => {

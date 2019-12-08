@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useReducer } from "react";
 import axios from "axios";
 import API_URL from "../API_URL";
 import TaskTimer from "./TaskTimer";
@@ -6,6 +6,40 @@ import { isTaskEqualTo, useErrorMessage, useWillUnmount } from "../hooks";
 
 const zeroPad = number => {
   return String(100 + (number % 100)).substr(1);
+};
+
+const timerReducer = (state, action) => {
+  switch (action.type) {
+    case "START":
+      return {
+        ...state,
+        isRunning: true,
+        millisecondsOnStart: state.milliseconds,
+        timestampOnStart: Date.now(),
+        millisecondsUntillNextMinute:
+          60 * 1000 - (state.milliseconds % (60 * 1000))
+      };
+    case "STOP":
+      return {
+        ...state,
+        isRunning: false
+      };
+    case "TICK":
+      const milliseconds =
+        state.millisecondsOnStart + Date.now() - state.timestampOnStart;
+      return {
+        ...state,
+        milliseconds,
+        millisecondsUntillNextMinute: 60 * 1000 - (milliseconds % (60 * 1000))
+      };
+    case "UPDATE":
+      return {
+        ...state,
+        milliseconds: action.seconds * 1000
+      };
+    default:
+      return state;
+  }
 };
 
 function ShowTask({
@@ -16,46 +50,34 @@ function ShowTask({
   tasks,
   onPlayStart
 }) {
-  const [seconds, setSeconds] = useState(task.seconds);
-  const minutes = Math.floor(seconds / 60) % 60;
-  const hours = Math.floor(seconds / 60 / 60);
+  const [timer, dispatch] = useReducer(timerReducer, {
+    isRunning: false,
+    milliseconds: task.seconds * 1000,
+    millisecondsOnStart: null,
+    timestampOnStart: null,
+    millisecondsUntillNextMinute: null
+  });
 
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [startTime, setStartTime] = useState(null);
-  const [secondsBeforeStart, setSecondsBeforeStart] = useState(task.seconds);
+  const minutes = Math.floor(timer.milliseconds / 60 / 1000) % 60;
+  const hours = Math.floor(timer.milliseconds / 60 / 1000 / 60);
 
   const [errorDiv, setErrorMessage] = useErrorMessage();
   const willUnmount = useWillUnmount();
 
-  // Clock tick
   useEffect(() => {
-    if (isTimerRunning) {
-      const interval = setInterval(() => {
-        setSeconds(
-          Math.floor(secondsBeforeStart + Date.now() / 1000 - startTime)
-        );
-      }, 1000);
+    const seconds = Math.floor(timer.milliseconds / 1000);
 
-      return () => clearInterval(interval);
-    } else {
-      setSeconds(secondsBeforeStart);
+    if (!timer.isRunning && task.seconds !== seconds) {
+      dispatch({ type: "UPDATE", seconds: task.seconds });
     }
-  }, [isTimerRunning, secondsBeforeStart, startTime]);
-
-  useEffect(() => {
-    if (isTimerRunning) {
-      setStartTime(Date.now() / 1000);
-    }
-  }, [isTimerRunning]);
-
-  useEffect(() => {
-    if (!isTimerRunning) {
-      setSecondsBeforeStart(task.seconds);
-    }
-  }, [isTimerRunning, task.seconds]);
+  }, [timer.isRunning, task.seconds, timer.milliseconds]);
 
   const saveTask = useCallback(
     callback => {
+      const milliseconds =
+        timer.millisecondsOnStart + Date.now() - timer.timestampOnStart;
+      const seconds = Math.floor(milliseconds / 1000);
+
       axios
         .patch(`${API_URL}/tasks/`, {
           old_task: { name: task.name, project: task.project },
@@ -63,7 +85,7 @@ function ShowTask({
         })
         .then(resp => {
           if (callback) {
-            callback();
+            callback(seconds);
           }
         })
         .catch(err => {
@@ -81,12 +103,27 @@ function ShowTask({
           }
         });
     },
-    [task, seconds, setErrorMessage]
+    [task, timer.millisecondsOnStart, timer.timestampOnStart, setErrorMessage]
   );
 
+  useEffect(() => {
+    if (timer.isRunning) {
+      const timeout = setTimeout(
+        () => dispatch({ type: "TICK" }),
+        timer.millisecondsUntillNextMinute
+      );
+      return () => clearTimeout(timeout);
+    }
+  }, [timer.isRunning, timer.millisecondsUntillNextMinute]);
+
+  function startTimer() {
+    dispatch({ type: "START" });
+    onPlayStart();
+  }
+
   // Stop timer and save result
-  function stopTimer() {
-    saveTask(() => {
+  function stopTimer(callback) {
+    saveTask(seconds => {
       updateTasks(tasks =>
         tasks.map(someTask => {
           if (
@@ -99,17 +136,22 @@ function ShowTask({
         })
       );
       if (!willUnmount) {
-        setIsTimerRunning(false);
+        dispatch({ type: "STOP" });
+        if (callback) {
+          callback();
+        }
       }
     });
   }
 
   // Save task every minute
   useEffect(() => {
-    if (isTimerRunning && seconds !== task.seconds && seconds % 60 === 0) {
+    const seconds = Math.floor(timer.milliseconds / 1000);
+
+    if (timer.isRunning && seconds !== task.seconds && seconds % 60 === 0) {
       saveTask();
     }
-  }, [isTimerRunning, saveTask, seconds, task.seconds]);
+  }, [timer.isRunning, saveTask, timer.milliseconds, task.seconds]);
 
   function reorderTasks(other) {
     const otherIndex = tasks.findIndex(isTaskEqualTo(other));
@@ -156,14 +198,14 @@ function ShowTask({
 
   // Ask confirmation when user closes tab
   useEffect(() => {
-    if (isTimerRunning) {
+    if (timer.isRunning) {
       window.onbeforeunload = evt => {
         return "There's a task running. You'll loose the timer progress.";
       };
 
       return () => (window.onbeforeunload = undefined);
     }
-  }, [isTimerRunning]);
+  }, [timer.isRunning]);
 
   return (
     <div
@@ -175,7 +217,9 @@ function ShowTask({
       onDrop={evt => {
         evt.preventDefault();
         const [name, project] = evt.dataTransfer.getData("text").split("/");
-        reorderTasks({ name, project }, task);
+        if (name && project) {
+          reorderTasks({ name, project }, task);
+        }
       }}
       className="task"
       style={{
@@ -183,15 +227,13 @@ function ShowTask({
       }}
     >
       <div className="task-head">
-        <TaskTimer seconds={seconds} isTimerRunning={isTimerRunning}>
-          {!isTimerRunning ? (
-            <button
-              className="start"
-              onClick={() => {
-                setIsTimerRunning(true);
-                onPlayStart();
-              }}
-            >
+        <TaskTimer
+          key={minutes}
+          startingSeconds={Math.floor(timer.milliseconds / 1000)}
+          isTimerRunning={timer.isRunning}
+        >
+          {!timer.isRunning ? (
+            <button className="start" onClick={startTimer}>
               <img
                 src={`${process.env.PUBLIC_URL}/baseline_play_arrow_white_24dp.png`}
                 alt="Start timer"
@@ -199,12 +241,7 @@ function ShowTask({
               />
             </button>
           ) : (
-            <button
-              className="stop"
-              onClick={() => {
-                stopTimer();
-              }}
-            >
+            <button className="stop" onClick={() => stopTimer()}>
               <img
                 src={`${process.env.PUBLIC_URL}/baseline_pause_white_24dp.png`}
                 alt="Stop timer"
@@ -231,10 +268,11 @@ function ShowTask({
           <button
             className="edit"
             onClick={() => {
-              if (isTimerRunning) {
-                stopTimer();
+              if (timer.isRunning) {
+                stopTimer(editTask);
+              } else {
+                editTask();
               }
-              editTask();
             }}
           >
             Edit
